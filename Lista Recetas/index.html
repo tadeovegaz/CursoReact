@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Crea tu receta</h1>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script>
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const toDoList = [];
+
+        const submit = (e) => {
+            e.preventDefault();
+            //Tabla para mostrar los datos
+            const table = React.createElement('table', null, [
+                React.createElement('thead', null, React.createElement('tr', null, [
+                    React.createElement('th', { key: 'receta-header' }, 'Receta Creada'),
+                    React.createElement('th', { key: 'ingredientes-header' }, 'Ingredientes'),
+                    React.createElement('th', { key: 'tiempo-header' }, 'Tiempo de Preparación')
+                ])),
+                React.createElement('tbody', null, toDoList)
+            ]);
+            //Datos que se ingresan en el formulario
+            const row = React.createElement('tr', null, [
+                React.createElement('td', { key: e.target.receta }, event.target.receta.value),
+                React.createElement('td', { key: e.target.ingredientes }, event.target.ingredientes.value),
+                React.createElement('td', { key: e.target.tiempo }, event.target.tiempo.value)
+            ]);
+
+            toDoList.push(row);
+            root.render([form, table]);
+        }
+
+        //Formulario para ingresar datos
+        const form = React.createElement('form', { onSubmit: submit }, [
+            React.createElement('input', { type: 'text', name: 'receta', placeholder: 'Nombre de la receta' }),
+            React.createElement('input', { type: 'text', name: 'ingredientes', placeholder: 'Lista de ingredientes' }),
+            React.createElement('input', { type: 'text', name: 'tiempo', placeholder: 'Tiempo de preparación' }),
+            React.createElement('button', { style: { color: "white", backgroundColor: "green" }, type: 'submit' }, 'Agregar Receta')
+        ]);
+
+        root.render(form);
+
+        //guuardar datos en local storage
+        localStorage.setItem('toDoList', JSON.stringify(toDoList));
+    </script>
+</body>
+
+</html>
